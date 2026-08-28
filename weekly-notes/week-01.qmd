@@ -8,9 +8,8 @@ date: 2026-08-28
 
 <!-- CHANGE THIS: replace with your own notes -->
 
-Set up the portfolio workflow: made a repository from a template, cloned it with
-GitHub Desktop, edited files in RStudio, rendered with Quarto, and published to
-GitHub Pages.
+We set up a portfolio website. Cloned template from GitHub and did some changes,
+rendered and published it.
 
 ## Key Concepts
 
@@ -35,11 +34,13 @@ sessionInfo()$R.version$version.string
 
 <!-- CHANGE THIS: 3-4 sentences -->
 
-What I want out of this course:
+What I want out of this course: I want to learn how to build my own website. 
+Besides, I would like to be more familiar with coding and Github.
 
-One thing I'm nervous about:
+One thing I'm nervous about: I'm nervous about I'm not able to keep up with the course. 
+Sometimes, if I fall a little behind, I will be not able to follow all the other materials. 
 
 ## Questions I Still Have
-
+I don't really have anything right now. I pretty like this course so far. 
 -
 -

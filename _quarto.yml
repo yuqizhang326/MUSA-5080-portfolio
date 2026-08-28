@@ -19,7 +19,7 @@ website:
         text: "Assignments"
     right:
       - icon: github
-        href: https://github.com/yqizhang326/MUSA-5080-portfolio      # <-- CHANGE THIS
+        href: https://github.com/yuqizhang326/MUSA-5080-portfolio      # <-- CHANGE THIS
 
 format:
   html:
