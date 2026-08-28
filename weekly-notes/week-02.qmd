@@ -1,0 +1,10 @@
+---
+title: "week-02"
+format: html
+---
+
+---
+title: "Week 2: Census Data"
+description: "One line about this page."
+date: 2026-09-05
+---
