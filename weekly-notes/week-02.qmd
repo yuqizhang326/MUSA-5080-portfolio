@@ -1,5 +1,5 @@
 ---
-title: "week-02: dplyr and Census"
+title: "week-02: dplyr and census"
 format: html
 discription: "table fuctions and acs data"
 date: 2026-09-04
