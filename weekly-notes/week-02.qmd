@@ -1,6 +1,8 @@
 ---
-title: "week-02"
+title: "week-02: dplyr and Census"
 format: html
+discription: "table fuctions and acs data"
+date: 2026-09-04
 ---
 
 ---
@@ -8,3 +10,9 @@ title: "Week 2: Census Data"
 description: "One line about this page."
 date: 2026-09-05
 ---
+
+##Key Concepts
+
+##What we did
+
+##Reflection

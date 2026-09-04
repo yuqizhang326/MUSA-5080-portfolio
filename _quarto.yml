@@ -4,7 +4,7 @@ project:
   execute-dir: project
 
 website:
-  title: "Yuqi_Zhang - MUSA 5080 Portfolio"        # <-- CHANGE THIS
+  title: "Yuqi Zhang - MUSA 5080 Portfolio"        # <-- CHANGE THIS
   description: "Public Policy Analytics portfolio"
   navbar:
     title: "Portfolio"
@@ -23,7 +23,7 @@ website:
 
 format:
   html:
-    theme: cosmo
+    theme: sketchy
     toc: true
     code-fold: false
     code-tools: true
