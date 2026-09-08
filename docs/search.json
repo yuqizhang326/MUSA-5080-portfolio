@@ -222,5 +222,68 @@
     "title": "Week 2: dylpr and Census",
     "section": "",
     "text": "This week, we practiced using dplyr to work with and organize data in R. We used basic functions such as filter(), select(), mutate(), arrange(), group_by(), and summarize() to explore datasets.\nWe also learned how to access American Community Survey (ACS) data in R using tidycensus. We discussed the difference between ACS 1-year and 5-year estimates and how ACS data represent estimates based on survey samples rather than complete population counts."
+  },
+  {
+    "objectID": "assignments/assignment2.html",
+    "href": "assignments/assignment2.html",
+    "title": "Assignment 2: Who Do We Know the Least About?",
+    "section": "",
+    "text": "library(tidyverse)\nlibrary(tidycensus)"
+  },
+  {
+    "objectID": "assignments/assignment2.html#setup",
+    "href": "assignments/assignment2.html#setup",
+    "title": "Assignment 2: Who Do We Know the Least About?",
+    "section": "",
+    "text": "library(tidyverse)\nlibrary(tidycensus)"
+  },
+  {
+    "objectID": "assignments/assignment2.html#the-question",
+    "href": "assignments/assignment2.html#the-question",
+    "title": "Assignment 2: Who Do We Know the Least About?",
+    "section": "The question",
+    "text": "The question\nEvery number the American Community Survey publishes is an estimate drawn from a sample, not a count. That means every number comes with a margin of error — a statement about how wrong it might be.\nMost people ignore it. In this assignment, In this assignment, I examine median gross rent across counties and county-equivalents in Virginia. I compare their margins of error to identify which communities are measured more reliably and which have greater uncertainty."
+  },
+  {
+    "objectID": "assignments/assignment2.html#choosing-what-to-measure",
+    "href": "assignments/assignment2.html#choosing-what-to-measure",
+    "title": "Assignment 2: Who Do We Know the Least About?",
+    "section": "Choosing what to measure",
+    "text": "Choosing what to measure\n\nmy_state &lt;- \"VA\"        # two-letter abbreviation, in quotes\nmy_variable &lt;- \"B25064_001\"     # the variable code, in quotes"
+  },
+  {
+    "objectID": "assignments/assignment2.html#pulling-the-data",
+    "href": "assignments/assignment2.html#pulling-the-data",
+    "title": "Assignment 2: Who Do We Know the Least About?",
+    "section": "Pulling the data",
+    "text": "Pulling the data\n\ncounty_data &lt;- get_acs(\n  geography = \"county\",\n  variables = my_variable,\n  state = my_state,\n  year = 2023,\n  survey = \"acs5\"\n)\n\nLet’s look at what came back.\n\ndim(county_data)\n\n[1] 133   5\n\nhead(county_data)\n\n# A tibble: 6 × 5\n  GEOID NAME                        variable   estimate   moe\n  &lt;chr&gt; &lt;chr&gt;                       &lt;chr&gt;         &lt;dbl&gt; &lt;dbl&gt;\n1 51001 Accomack County, Virginia   B25064_001      973    59\n2 51003 Albemarle County, Virginia  B25064_001     1623    38\n3 51005 Alleghany County, Virginia  B25064_001      774   109\n4 51007 Amelia County, Virginia     B25064_001      972   126\n5 51009 Amherst County, Virginia    B25064_001      842    38\n6 51011 Appomattox County, Virginia B25064_001      883    73\n\n\nThe dataset contains 133 rows, representing Virginia’s 95 counties and 38 independent cities, which are treated as county-equivalent geographies in the ACS."
+  },
+  {
+    "objectID": "assignments/assignment2.html#how-big-is-the-margin-of-error",
+    "href": "assignments/assignment2.html#how-big-is-the-margin-of-error",
+    "title": "Assignment 2: Who Do We Know the Least About?",
+    "section": "How big is the margin of error?",
+    "text": "How big is the margin of error?\nA margin of error of 3,000 means something very different for an estimate of 20,000 than for an estimate of 200,000. To compare across places, we need it as a percentage.\n\ncounty_data &lt;- county_data %&gt;%\n  mutate(moe_pct = moe / estimate * 100)\n\nNow sort to see which counties are measured least reliably.\n\ncounty_data %&gt;%\n  arrange(desc(moe_pct)) %&gt;%\n  select(NAME, estimate, moe, moe_pct) %&gt;%\n  head(10)\n\n# A tibble: 10 × 4\n   NAME                            estimate   moe moe_pct\n   &lt;chr&gt;                              &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;\n 1 Surry County, Virginia               858   257    30.0\n 2 Greene County, Virginia             1502   409    27.2\n 3 Covington city, Virginia             822   220    26.8\n 4 Powhatan County, Virginia           1107   293    26.5\n 5 King William County, Virginia       1246   296    23.8\n 6 Bath County, Virginia                825   180    21.8\n 7 Northumberland County, Virginia     1053   197    18.7\n 8 Lexington city, Virginia             985   181    18.4\n 9 Madison County, Virginia            1048   189    18.0\n10 Rappahannock County, Virginia       1384   241    17.4\n\n\nSurry County has the largest margin of error relative to its estimate. Its margin of error is approximately 30.0% of the estimated median gross rent, making it the least reliably measured geography in this dataset."
+  },
+  {
+    "objectID": "assignments/assignment2.html#sorting-counties-into-reliability-categories",
+    "href": "assignments/assignment2.html#sorting-counties-into-reliability-categories",
+    "title": "Assignment 2: Who Do We Know the Least About?",
+    "section": "Sorting counties into reliability categories",
+    "text": "Sorting counties into reliability categories\n\ncounty_data &lt;- county_data %&gt;%\n  mutate(reliability = case_when(\n    moe_pct &lt; 5  ~ \"High confidence\",\n    moe_pct &lt; 10 ~ \"Moderate\",\n    TRUE         ~ \"Low confidence\"\n  ))\n\ncount(county_data, reliability)\n\n# A tibble: 3 × 2\n  reliability         n\n  &lt;chr&gt;           &lt;int&gt;\n1 High confidence    49\n2 Low confidence     27\n3 Moderate           57\n\n\nThere are 49 county-equivalent geographies in the high-confidence category, 57 in the moderate-confidence category, and 27 in the low-confidence category."
+  },
+  {
+    "objectID": "assignments/assignment2.html#is-the-margin-of-error-bigger-in-small-places",
+    "href": "assignments/assignment2.html#is-the-margin-of-error-bigger-in-small-places",
+    "title": "Assignment 2: Who Do We Know the Least About?",
+    "section": "Is the margin of error bigger in small places?",
+    "text": "Is the margin of error bigger in small places?\nTo answer this we need population and our variable side by side, in the same row. This requires a wide-format ACS pull.\n\ncounty_wide &lt;- get_acs(\n  geography = \"county\",\n  variables = c(myvar = my_variable,\n                pop   = \"B01003_001\"),\n  state = my_state,\n  year = 2023,\n  survey = \"acs5\",\n  output = \"wide\"\n)\n\nhead(county_wide)\n\n# A tibble: 6 × 6\n  GEOID NAME                        myvarE myvarM   popE  popM\n  &lt;chr&gt; &lt;chr&gt;                        &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;\n1 51001 Accomack County, Virginia      973     59  33326    NA\n2 51003 Albemarle County, Virginia    1623     38 113683    NA\n3 51005 Alleghany County, Virginia     774    109  14962    NA\n4 51007 Amelia County, Virginia        972    126  13342    NA\n5 51009 Amherst County, Virginia       842     38  31385    NA\n6 51011 Appomattox County, Virginia    883     73  16424    NA\n\n\n\ncounty_wide &lt;- county_wide %&gt;%\n  mutate(moe_pct = myvarM / myvarE * 100) %&gt;%\n  mutate(reliability = case_when(\n    moe_pct &lt; 5  ~ \"High confidence\",\n    moe_pct &lt; 15 ~ \"Moderate\",\n    TRUE         ~ \"Low confidence\"\n  ))\n\nNow compare the average population of counties in each reliability category.\n\ncounty_wide %&gt;%\n  group_by(reliability) %&gt;%\n  summarize(\n    n_counties = n(),\n    avg_population = mean(popE, na.rm = TRUE)\n  )\n\n# A tibble: 3 × 3\n  reliability     n_counties avg_population\n  &lt;chr&gt;                &lt;int&gt;          &lt;dbl&gt;\n1 High confidence         49        134521.\n2 Low confidence          13         12508.\n3 Moderate                71         26808.\n\n\nHigh-confidence counties have an average population of approximately 134,521, while low-confidence counties have an average population of only 12,508. Moderate-confidence counties fall in between, with an average population of about 26,808. This shows a clear pattern: counties with smaller populations tend to have larger margins of error relative to their estimates."
+  },
+  {
+    "objectID": "assignments/assignment2.html#what-this-means-for-policy",
+    "href": "assignments/assignment2.html#what-this-means-for-policy",
+    "title": "Assignment 2: Who Do We Know the Least About?",
+    "section": "What this means for policy",
+    "text": "What this means for policy\nThe ACS data show that we know the least about some smaller communities in Virginia when measuring median gross rent. Surry County has the largest relative margin of error at 30.0%, followed by Greene County at 27.2%, Covington city at 26.8%, and Powhatan County at 26.5%. These large margins of error mean that their rent estimates are less precise than estimates for communities with smaller margins of error.\nThis pattern is related to how the ACS works. The ACS is based on a sample rather than a complete count of every household. Smaller communities generally have smaller samples, which creates more uncertainty in their estimates. My results show this pattern clearly. High-confidence counties have an average population of about 134,521, while low-confidence counties have an average population of only 12,508. Moderate-confidence counties fall in between, with an average population of about 26,808.\nThis uncertainty could cause problems if a state agency used median gross rent to allocate affordable housing funding or rental assistance while treating every estimate as equally certain. Smaller communities with large margins of error would be especially vulnerable. For example, if their estimated rent is lower than the actual rent, they might receive less housing assistance than they actually need. If it is higher than the actual rent, funding might be directed there instead of to communities with greater needs. Therefore, agencies should consider both ACS estimates and their margins of error when making funding decisions."
   }
 ]
