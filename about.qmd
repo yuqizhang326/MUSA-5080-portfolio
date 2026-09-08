@@ -6,20 +6,23 @@ title: "About Me"
 
 <!-- CHANGE THIS -->
 
-Write a few paragraphs about yourself here: where you came from before MUSA,
-what drew you to urban spatial analytics, and what you're hoping to do with it.
+I am a Master of City Planning student at the University of Pennsylvania, concentrating in Transportation Planning. Before coming to Penn, I studied Parks and Recreation Management, Human Geography, and Urban and Rural Planning.
+
+My interests include transportation planning, spatial analysis, and the use of data to understand cities and communities. Through my coursework and planning experience, I have worked with demographic, transportation, and spatial data to examine issues such as accessibility, mobility, and the built environment.
+
+I am interested in developing stronger skills in urban spatial analysis and using these tools to support data-informed planning and policy decisions.
 
 ## Skills
 
 <!-- CHANGE THIS: update this through the semester as it becomes true -->
 
-- **Languages & Tools:** R, Quarto, Git
-- **Spatial:** (add as you learn)
+- **Languages & Tools:** R, Python, Quarto, Git
+- **Spatial:** ArcGIS Pro
 - **Data:** US Census / ACS via `tidycensus`
 
 ## Contact
 
 <!-- CHANGE THIS -->
 
-- Email: your-email@upenn.edu
-- GitHub: [@your-username](https://github.com/your-username)
+- Email: yqizhang@upenn.edu
+- GitHub: [@yuqizhang326](https://github.com/yuqizhang326)
