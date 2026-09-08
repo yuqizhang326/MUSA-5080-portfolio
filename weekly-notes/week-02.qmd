@@ -6,15 +6,34 @@ date: 2026-09-04
 
 
 ## What We Did
+This week, we practiced using dplyr to work with and organize data in R. We used basic functions such as filter(), select(), mutate(), arrange(), group_by(), and summarize() to explore datasets.
 
-
+We also learned how to access American Community Survey (ACS) data in R using tidycensus. We discussed the difference between ACS 1-year and 5-year estimates and how ACS data represent estimates based on survey samples rather than complete population counts.
 
 ## Key Concepts
+filter(): selects rows based on conditions.
 
+select(): selects specific columns.
+
+mutate(): creates or modifies variables.
+
+arrange(): sorts observations.
+
+group_by() and summarize(): group observations and calculate summary statistics.
+
+ACS 1-year estimates: use data collected over one year and are available for larger geographic areas.
+
+ACS 5-year estimates: combine five years of survey responses and provide data for smaller geographic areas.
+
+GEOID: a geographic identifier used to identify Census geographic areas.
+
+Long vs. wide data: long data usually stores observations across multiple rows, while wide data places related variables in separate columns.
 
 
 ## Reflection
+This week helped me better understand both data organization in R and the structure of Census data. One important thing I learned is that ACS values are estimates from samples rather than exact counts. This means that the margin of error is important when interpreting and comparing ACS data.
 
+I also have a better understanding of why data structure matters. Long format can be useful for organizing and analyzing multiple variables consistently, while wide format makes it easier to compare several variables for the same geographic area in one row.
 
 ## Questions I Still Have
-
+I am still a little confused about how Markdown formatting is translated into the final webpage. For example, I want to better understand why ** sometimes appears as formatting and sometimes appears directly on the webpage. I am also curious about how line breaks and blank lines in a .qmd file affect the rendered page, and whether Quarto automatically adjusts extra spacing between paragraphs.

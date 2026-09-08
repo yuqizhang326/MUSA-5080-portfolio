@@ -151,11 +151,11 @@ county_wide %>%
 
 ## What this means for policy
 
-**The ACS data show that we know the least about some smaller communities in Virginia when measuring median gross rent. Surry County has the largest relative margin of error at 30.0%, followed by Greene County at 27.2%, Covington city at 26.8%, and Powhatan County at 26.5%. These large margins of error mean that their rent estimates are less precise than estimates for communities with smaller margins of error.
+The ACS data show that we know the least about some smaller communities in Virginia when measuring median gross rent. Surry County has the largest relative margin of error at 30.0%, followed by Greene County at 27.2%, Covington city at 26.8%, and Powhatan County at 26.5%. These large margins of error mean that their rent estimates are less precise than estimates for communities with smaller margins of error.
 
 This pattern is related to how the ACS works. The ACS is based on a sample rather than a complete count of every household. Smaller communities generally have smaller samples, which creates more uncertainty in their estimates. My results show this pattern clearly. High-confidence counties have an average population of about 134,521, while low-confidence counties have an average population of only 12,508. Moderate-confidence counties fall in between, with an average population of about 26,808.
 
-This uncertainty could cause problems if a state agency used median gross rent to allocate affordable housing funding or rental assistance while treating every estimate as equally certain. Smaller communities with large margins of error would be especially vulnerable. For example, if their estimated rent is lower than the actual rent, they might receive less housing assistance than they actually need. If it is higher than the actual rent, funding might be directed there instead of to communities with greater needs. Therefore, agencies should consider both ACS estimates and their margins of error when making funding decisions.**
+This uncertainty could cause problems if a state agency used median gross rent to allocate affordable housing funding or rental assistance while treating every estimate as equally certain. Smaller communities with large margins of error would be especially vulnerable. For example, if their estimated rent is lower than the actual rent, they might receive less housing assistance than they actually need. If it is higher than the actual rent, funding might be directed there instead of to communities with greater needs. Therefore, agencies should consider both ACS estimates and their margins of error when making funding decisions.
 
 
 

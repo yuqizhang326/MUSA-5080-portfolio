@@ -128,30 +128,30 @@
   {
     "objectID": "weekly-notes/week-02.html",
     "href": "weekly-notes/week-02.html",
-    "title": "week-02: dplyr and census",
+    "title": "Week 2: dylpr and Census",
     "section": "",
-    "text": "##Key Concepts\n##What we did\n##Reflection"
+    "text": "This week, we practiced using dplyr to work with and organize data in R. We used basic functions such as filter(), select(), mutate(), arrange(), group_by(), and summarize() to explore datasets.\nWe also learned how to access American Community Survey (ACS) data in R using tidycensus. We discussed the difference between ACS 1-year and 5-year estimates and how ACS data represent estimates based on survey samples rather than complete population counts."
   },
   {
     "objectID": "weekly-notes/week-02.html#key-concepts",
     "href": "weekly-notes/week-02.html#key-concepts",
     "title": "Week 2: dylpr and Census",
     "section": "Key Concepts",
-    "text": "Key Concepts"
+    "text": "Key Concepts\nfilter(): selects rows based on conditions.\nselect(): selects specific columns.\nmutate(): creates or modifies variables.\narrange(): sorts observations.\ngroup_by() and summarize(): group observations and calculate summary statistics.\nACS 1-year estimates: use data collected over one year and are available for larger geographic areas.\nACS 5-year estimates: combine five years of survey responses and provide data for smaller geographic areas.\nGEOID: a geographic identifier used to identify Census geographic areas.\nLong vs. wide data: long data usually stores observations across multiple rows, while wide data places related variables in separate columns."
   },
   {
     "objectID": "weekly-notes/week-02.html#reflection",
     "href": "weekly-notes/week-02.html#reflection",
     "title": "Week 2: dylpr and Census",
     "section": "Reflection",
-    "text": "Reflection"
+    "text": "Reflection\nThis week helped me better understand both data organization in R and the structure of Census data. One important thing I learned is that ACS values are estimates from samples rather than exact counts. This means that the margin of error is important when interpreting and comparing ACS data.\nI also have a better understanding of why data structure matters. Long format can be useful for organizing and analyzing multiple variables consistently, while wide format makes it easier to compare several variables for the same geographic area in one row."
   },
   {
     "objectID": "weekly-notes/week-02.html#questions-i-still-have",
     "href": "weekly-notes/week-02.html#questions-i-still-have",
     "title": "Week 2: dylpr and Census",
     "section": "Questions I Still Have",
-    "text": "Questions I Still Have"
+    "text": "Questions I Still Have\nI am still a little confused about how Markdown formatting is translated into the final webpage. For example, I want to better understand why ** sometimes appears as formatting and sometimes appears directly on the webpage. I am also curious about how line breaks and blank lines in a .qmd file affect the rendered page, and whether Quarto automatically adjusts extra spacing between paragraphs."
   },
   {
     "objectID": "assignments/assignment2 .html",
@@ -214,6 +214,13 @@
     "href": "assignments/assignment2 .html#what-this-means-for-policy",
     "title": "Assignment 2: Who Do We Know the Least About?",
     "section": "What this means for policy",
-    "text": "What this means for policy\n**The ACS data show that we know the least about some smaller communities in Virginia when measuring median gross rent. Surry County has the largest relative margin of error at 30.0%, followed by Greene County at 27.2%, Covington city at 26.8%, and Powhatan County at 26.5%. These large margins of error mean that their rent estimates are less precise than estimates for communities with smaller margins of error.\nThis pattern is related to how the ACS works. The ACS is based on a sample rather than a complete count of every household. Smaller communities generally have smaller samples, which creates more uncertainty in their estimates. My results show this pattern clearly. High-confidence counties have an average population of about 134,521, while low-confidence counties have an average population of only 12,508. Moderate-confidence counties fall in between, with an average population of about 26,808.\nThis uncertainty could cause problems if a state agency used median gross rent to allocate affordable housing funding or rental assistance while treating every estimate as equally certain. Smaller communities with large margins of error would be especially vulnerable. For example, if their estimated rent is lower than the actual rent, they might receive less housing assistance than they actually need. If it is higher than the actual rent, funding might be directed there instead of to communities with greater needs. Therefore, agencies should consider both ACS estimates and their margins of error when making funding decisions.**"
+    "text": "What this means for policy\nThe ACS data show that we know the least about some smaller communities in Virginia when measuring median gross rent. Surry County has the largest relative margin of error at 30.0%, followed by Greene County at 27.2%, Covington city at 26.8%, and Powhatan County at 26.5%. These large margins of error mean that their rent estimates are less precise than estimates for communities with smaller margins of error.\nThis pattern is related to how the ACS works. The ACS is based on a sample rather than a complete count of every household. Smaller communities generally have smaller samples, which creates more uncertainty in their estimates. My results show this pattern clearly. High-confidence counties have an average population of about 134,521, while low-confidence counties have an average population of only 12,508. Moderate-confidence counties fall in between, with an average population of about 26,808.\nThis uncertainty could cause problems if a state agency used median gross rent to allocate affordable housing funding or rental assistance while treating every estimate as equally certain. Smaller communities with large margins of error would be especially vulnerable. For example, if their estimated rent is lower than the actual rent, they might receive less housing assistance than they actually need. If it is higher than the actual rent, funding might be directed there instead of to communities with greater needs. Therefore, agencies should consider both ACS estimates and their margins of error when making funding decisions."
+  },
+  {
+    "objectID": "weekly-notes/week-02.html#what-we-did",
+    "href": "weekly-notes/week-02.html#what-we-did",
+    "title": "Week 2: dylpr and Census",
+    "section": "",
+    "text": "This week, we practiced using dplyr to work with and organize data in R. We used basic functions such as filter(), select(), mutate(), arrange(), group_by(), and summarize() to explore datasets.\nWe also learned how to access American Community Survey (ACS) data in R using tidycensus. We discussed the difference between ACS 1-year and 5-year estimates and how ACS data represent estimates based on survey samples rather than complete population counts."
   }
 ]
