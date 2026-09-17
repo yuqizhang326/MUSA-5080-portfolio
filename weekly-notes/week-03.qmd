@@ -59,4 +59,5 @@ The discussion of uncertainty also helped me better understand ACS data. A visib
 
 
 ## Questions I Still Have
-I'm still a little bit uncertain about coefficient of variation.
+I'm still a little bit uncertain about coefficient of variation. And I forgot where to render the website. The assignment 3 and weekly notes 3 do not willing to appear on my website.
+
