@@ -1,0 +1,291 @@
+---
+title: "Verify the Claim: Poverty Change in Philadelphia"
+author: "Yuqi Zhang"
+date: 9/17/2026
+format:
+  html:
+    toc: true
+    code-fold: true
+    code-summary: "Show code"
+    embed-resources: true
+execute:
+  warning: false
+  message: false
+---
+
+## Introduction
+
+This analysis evaluates claims about changes in poverty in Philadelphia using ACS 5-year estimates. The article compares poverty conditions between the 2006–2010 and 2013–2017 ACS periods. Because the neighborhood boundaries used in the article are not published Census geographies, this analysis evaluates change at the census tract level.
+
+## Part 1 — Reconstruct
+
+The analysis uses ACS 5-year estimates for Philadelphia census tracts. I use table B17001, *Poverty Status in the Past 12 Months by Sex by Age*. Variable `B17001_001` represents the total population for whom poverty status is determined, while `B17001_002` represents the population whose income in the past 12 months was below the poverty level.
+
+I use the 2010 ACS 5-year estimate to represent 2006–2010 and the 2017 ACS 5-year estimate to represent 2013–2017. These periods do not overlap. Because the article does not publish the exact census tracts used to construct its neighborhood estimates, I analyze individual census tracts rather than attempting to reproduce the article's neighborhood boundaries.
+
+```{r}
+#| include: false
+
+library(tidyverse)
+library(tidycensus)
+library(gt)
+```
+
+### ACS data
+
+```{r}
+#download 2010 data
+poverty_2010 <- get_acs(
+  geography = "tract",
+  variables = c(
+    below_poverty = "B17001_002",
+    total = "B17001_001"
+  ),
+  state = "PA",
+  county = "Philadelphia",
+  year = 2010,
+  survey = "acs5",
+  output = "wide"
+)
+```
+
+```{r}
+#download 2017 data
+poverty_2017 <- get_acs(
+  geography = "tract",
+  variables = c(
+    below_poverty = "B17001_002",
+    total = "B17001_001"
+  ),
+  state = "PA",
+  county = "Philadelphia",
+  year = 2017,
+  survey = "acs5",
+  output = "wide"
+)
+```
+```{r}
+dim(poverty_2010)
+dim(poverty_2017)
+
+head(poverty_2010)
+```
+
+## Part 2 — Test
+
+For each census tract, I calculate the poverty rate and its margin of error. I then evaluate estimate reliability using the coefficient of variation (CV), compare poverty rates between the two ACS periods, and test whether the observed changes are statistically distinguishable from zero at the 90% confidence level.
+
+### Missing values
+
+Seven census tracts in 2006–2010 and eight census tracts in 2013–2017 have a total population of zero for whom poverty status is determined. Because a poverty rate cannot be calculated when the denominator is zero, these tracts are excluded from the rate and change analysis.
+
+```{r}
+poverty_2010 <- poverty_2010 %>%
+  filter(totalE > 0)
+
+poverty_2017 <- poverty_2017 %>%
+  filter(totalE > 0)
+```
+
+### Estimate reliability
+```{r}
+poverty_2010 <- poverty_2010 %>%
+  mutate(
+    cv = (poverty_moe / 1.645) / poverty_rate * 100,
+    reliability = case_when(
+      cv < 12 ~ "Reliable",
+      cv <= 40 ~ "Somewhat reliable",
+      TRUE ~ "Unreliable"
+    )
+  )
+
+poverty_2017 <- poverty_2017 %>%
+  mutate(
+    cv = (poverty_moe / 1.645) / poverty_rate * 100,
+    reliability = case_when(
+      cv < 12 ~ "Reliable",
+      cv <= 40 ~ "Somewhat reliable",
+      TRUE ~ "Unreliable"
+    )
+  )
+```
+
+```{r}
+poverty_2010 %>% count(reliability)
+poverty_2017 %>% count(reliability)
+```
+
+### Change over time
+```{r}
+poverty_change <- poverty_2010 %>%
+  select(
+    GEOID,
+    rate_2010 = poverty_rate,
+    moe_2010 = poverty_moe
+  ) %>%
+  inner_join(
+    poverty_2017 %>%
+      select(
+        GEOID,
+        NAME,
+        rate_2017 = poverty_rate,
+        moe_2017 = poverty_moe
+      ),
+    by = "GEOID"
+  )
+```
+
+```{r}
+poverty_tested <- poverty_change %>%
+  mutate(
+    change = rate_2017 - rate_2010,
+    se_2010 = moe_2010 / 1.645,
+    se_2017 = moe_2017 / 1.645,
+    se_diff = sqrt(se_2010^2 + se_2017^2),
+    moe_diff = se_diff * 1.645,
+    z = change / se_diff,
+    significant = abs(z) > 1.645
+  )
+```
+
+```{r}
+poverty_tested <- poverty_tested %>%
+  mutate(
+    rate_2010_pct = rate_2010 * 100,
+    rate_2017_pct = rate_2017 * 100,
+    change_pct = change * 100,
+    moe_diff_pct = moe_diff * 100,
+    tract = str_extract(NAME, "Census Tract [^,]+")
+  )
+```
+
+```{r}
+poverty_tested %>%
+  count(significant)
+```
+
+```{r}
+poverty_tested %>%
+  filter(significant) %>%
+  mutate(
+    direction = if_else(change > 0, "Increase", "Decrease")
+  ) %>%
+  count(direction)
+```
+
+```{r}
+poverty_tested %>%
+  filter(significant) %>%
+  arrange(desc(abs(change_pct))) %>%
+  slice_head(n = 15) %>%
+  ggplot(aes(
+    x = reorder(tract, change_pct),
+    y = change_pct
+  )) +
+  geom_col(aes(fill = change > 0)) +
+  geom_errorbar(
+    aes(
+      ymin = change_pct - moe_diff_pct,
+      ymax = change_pct + moe_diff_pct
+    ),
+    width = 0.3
+  ) +
+  geom_hline(
+    yintercept = 0,
+    linetype = "dashed"
+  ) +
+  coord_flip() +
+  theme_minimal() +
+  guides(fill = "none") +
+  labs(
+    title = "Largest statistically detectable changes in poverty rate",
+    subtitle = "Philadelphia census tracts, 2006–2010 to 2013–2017 ACS 5-year estimates",
+    x = NULL,
+    y = "Change in poverty rate (percentage points)"
+  )
+```
+### Reliability of poverty estimates
+```{r}
+reliability_table <- poverty_2017 %>%
+  filter(
+    !is.na(cv),
+    is.finite(cv)
+  ) %>%
+  mutate(
+    dot = case_when(
+      cv < 12 ~ "🟢",
+      cv <= 40 ~ "🟡",
+      TRUE ~ "🔴"
+    ),
+    tract = str_extract(NAME, "Census Tract [^,]+"),
+    poverty_rate_pct = poverty_rate * 100
+  ) %>%
+  arrange(desc(cv)) %>%
+  slice_head(n = 15) %>%
+  select(
+    dot,
+    tract,
+    poverty_rate_pct,
+    cv,
+    reliability
+  )
+```
+```{r}
+reliability_table %>%
+  gt() %>%
+  fmt_number(
+    columns = poverty_rate_pct,
+    decimals = 1
+  ) %>%
+  fmt_number(
+    columns = cv,
+    decimals = 1
+  ) %>%
+  cols_label(
+    dot = "",
+    tract = "Census tract",
+    poverty_rate_pct = "Poverty rate (%)",
+    cv = "CV (%)",
+    reliability = "Reliability"
+  ) %>%
+  tab_header(
+    title = "Census tracts with the least reliable poverty estimates",
+    subtitle = "Philadelphia, 2013–2017 ACS 5-year estimates"
+  ) %>%
+  tab_source_note(
+    "Reliability thresholds follow Jurjevich et al. (2018): CV < 12% reliable, 12–40% somewhat reliable, > 40% unreliable."
+  )
+```
+
+```{r}
+poverty_tested %>%
+  ggplot(aes(
+    x = rate_2010_pct,
+    y = rate_2017_pct
+  )) +
+  geom_point(alpha = 0.6) +
+  geom_abline(
+    slope = 1,
+    intercept = 0,
+    linetype = "dashed"
+  ) +
+  theme_minimal() +
+  labs(
+    title = "Poverty rates across Philadelphia census tracts",
+    subtitle = "2006–2010 compared with 2013–2017 ACS 5-year estimates",
+    x = "Poverty rate, 2006–2010 (%)",
+    y = "Poverty rate, 2013–2017 (%)"
+  )
+```
+
+### Summary of results
+```{r}
+poverty_tested %>%
+  summarize(
+    total_tracts = n(),
+    significant_change = sum(significant),
+    not_significant = sum(!significant),
+    significant_increase = sum(significant & change > 0),
+    significant_decrease = sum(significant & change < 0)
+  )
+```
