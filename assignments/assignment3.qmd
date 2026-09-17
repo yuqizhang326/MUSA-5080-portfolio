@@ -64,13 +64,27 @@ poverty_2017 <- get_acs(
   output = "wide"
 )
 ```
+
+
 ```{r}
-dim(poverty_2010)
-dim(poverty_2017)
+poverty_2010 <- poverty_2010 %>%
+  mutate(
+    poverty_rate = below_povertyE / totalE,
+    poverty_moe = moe_prop(
+      below_povertyE, totalE,
+      below_povertyM, totalM
+    )
+  )
 
-head(poverty_2010)
+poverty_2017 <- poverty_2017 %>%
+  mutate(
+    poverty_rate = below_povertyE / totalE,
+    poverty_moe = moe_prop(
+      below_povertyE, totalE,
+      below_povertyM, totalM
+    )
+  )
 ```
-
 ## Part 2 — Test
 
 For each census tract, I calculate the poverty rate and its margin of error. I then evaluate estimate reliability using the coefficient of variation (CV), compare poverty rates between the two ACS periods, and test whether the observed changes are statistically distinguishable from zero at the 90% confidence level.
