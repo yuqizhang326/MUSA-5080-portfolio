@@ -291,6 +291,7 @@ poverty_tested %>%
     y = "Poverty rate, 2013–2017 (%)"
   )
 ```
+The scatterplot shows substantial variation across census tracts, but many points remain relatively close to the diagonal reference line, indicating limited change between the two periods. Several apparent large changes are present, but the significance test shows that most tract-level differences are not statistically distinguishable from zero.
 
 ### Summary of results
 ```{r}
@@ -303,4 +304,26 @@ poverty_tested %>%
     significant_decrease = sum(significant & change < 0)
   )
 ```
+Of the 376 census tracts included in the comparison, 63 showed a statistically detectable change in poverty rate at the 90% confidence level, while 313 did not. Among the tracts with statistically significant change, 36 experienced an increase in poverty rate and 27 experienced a decrease. This means that most apparent tract-level changes between the two ACS periods are not statistically distinguishable from sampling uncertainty.
 
+The reliability analysis also shows that most tract estimates fall in the “Somewhat reliable” category. The number of reliable estimates increased from 11 in 2006–2010 to 22 in 2013–2017, while the number of unreliable estimates decreased from 45 to 22. These results show why margins of error and estimate reliability are important when interpreting apparent neighborhood-level change.
+
+## Part 3 — Adjudicate
+
+### Supported
+
+The article's broader claim that poverty increased substantially in some parts of Philadelphia is supported by the tract-level analysis. Of the 376 census tracts included in the comparison, 63 experienced a statistically detectable change in poverty rate at the 90% confidence level. Among these, 36 tracts experienced a significant increase and 27 experienced a significant decrease. This confirms that meaningful increases in poverty occurred in some parts of the city, although they were not universal.
+
+### Not supported
+
+The data do not support treating most apparent changes across Philadelphia as clear evidence of real change. Of the 376 tracts analyzed, 313 did not show a statistically detectable change. In addition, most poverty-rate estimates were classified as only “Somewhat reliable.” Therefore, differences between the two ACS periods should not automatically be interpreted as meaningful change without considering margins of error.
+
+### Cannot be determined
+
+Several of the article's most specific claims cannot be reproduced with this analysis. The article reports that Eastwick had the largest poverty-rate increase, that Holmesburg's poverty rate rose from 2% to 19%, and that Fairhill had a 61% poverty rate. However, the article does not publish the census tracts used to construct its neighborhood boundaries, so these neighborhood-level estimates cannot be directly replicated using tract-level data.
+
+The claim that poverty increased specifically among white residents also cannot be evaluated with this analysis because the variables used here measure overall poverty rather than poverty by race. Claims about changes in neighborhood income inequality also require additional income variables that are not included in this analysis.
+
+## Part 4 — Rewrite
+
+Philadelphia's 2013–2017 ACS estimates suggest that poverty increased in some parts of the city, but the pattern is less uniform than raw neighborhood comparisons imply. Among 376 census tracts analyzed, 63 showed a statistically detectable change in poverty rate compared with 2006–2010: 36 increased and 27 decreased. The remaining 313 tracts did not show a change that could be distinguished from sampling uncertainty at the 90% confidence level. Most tract-level estimates were also only somewhat reliable based on their coefficients of variation. Because the original article does not publish the census tracts used to define neighborhoods such as Eastwick, Fairhill, and Holmesburg, its specific neighborhood-level claims cannot be directly reproduced here. The ACS indicates real pockets of worsening poverty, but many apparent changes should be interpreted cautiously.
