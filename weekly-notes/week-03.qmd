@@ -1,0 +1,62 @@
+---
+title: "Week 3: Data Visualization and ACS Uncertainty"
+description: "Learning ggplot, coefficient of variation, and uncertainty in ACS estimates"
+date: 2026-09-17
+---
+
+
+## What We Did
+
+This week, we learned the basic structure of data visualization in R using `ggplot2`. We discussed Anscombe's Quartet as an example of how datasets can have similar summary statistics, such as means, correlations, and regression lines, while having very different visual patterns.
+
+We also learned the Grammar of Graphics approach used by `ggplot2`. A plot maps variables from a dataset to visual properties using `aes()`, while different `geom_*()` functions determine the type of visualization.
+
+Later in class, we focused on uncertainty in ACS estimates. We learned how to use margins of error, standard errors, and the coefficient of variation to evaluate estimate reliability. We also discussed how uncertainty should be handled when combining estimates or comparing ACS estimates across different time periods.
+
+
+## Key Concepts
+
+Anscombe's Quartet: four datasets can have similar means, correlations, and regression lines but look very different when visualized.
+
+`ggplot(data)`: creates the basic plotting canvas using a dataset.
+
+`aes()`: defines aesthetic mappings between variables and visual properties such as the x-axis and y-axis.
+
+`geom_point()`: creates a scatterplot and is useful for examining relationships between two variables.
+
+`geom_histogram()`: shows how the values of one variable are distributed.
+
+`geom_boxplot()`: compares the distribution of a variable across groups.
+
+`geom_col()`: creates a bar chart using values already contained in the data.
+
+`geom_line()`: shows how a variable changes over time.
+
+`geom_errorbar()`: displays uncertainty around an estimate using upper and lower bounds such as `estimate - moe` and `estimate + moe`.
+
+Coefficient of variation (CV): a relative measure of sampling error calculated as standard error divided by the estimate and multiplied by 100.
+
+Standard error (SE): for ACS estimates, it can be calculated from the 90% margin of error using `SE = MOE / 1.645`.
+
+Derived uncertainty: margins of error cannot simply be added when estimates are combined.
+
+`moe_sum()`: calculates uncertainty when adding estimates together.
+
+`moe_prop()`: calculates uncertainty when one estimate is expressed as a proportion of another and the numerator is a subset of the denominator.
+
+`moe_ratio()`: calculates uncertainty for a ratio when the numerator is not a subset of the denominator.
+
+Change over time: when comparing estimates from two ACS periods, the uncertainty from both estimates must be considered. The standard error of the difference can be calculated using the standard errors from both periods.
+
+
+## Reflection
+
+This week helped me understand why visualization is important before relying on summary statistics.
+
+I also learned that choosing a visualization depends on the question I want to answer. For example, a histogram is useful for examining a distribution, while a scatterplot is useful for studying the relationship between two variables.
+
+The discussion of uncertainty also helped me better understand ACS data. A visible difference between two estimates does not necessarily mean that a real change occurred. When comparing estimates across time, I need to consider the margins of error and determine whether the uncertainty interval around the change includes zero.
+
+
+## Questions I Still Have
+I'm still a little bit uncertain about coefficient of variation.
